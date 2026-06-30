@@ -1,0 +1,11 @@
+{
+  "latitude": 35.6785,
+  "longitude": 139.6823,
+  "daily": {
+    "time": ["2026-06-16", "2026-06-17", "2026-06-18"],
+    "weathercode": [3, 61, 0],
+    "temperature_2m_max": [26.7, 22.1, 29.0],
+    "temperature_2m_min": [15.6, 18.0, 17.5],
+    "precipitation_sum": [0.0, 5.2, 0.0]
+  }
+}
