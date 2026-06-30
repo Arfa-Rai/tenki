@@ -34,7 +34,7 @@ function makePage(data) {
   if (data.daily.precipitation_sum[0] > 0) {
     document.getElementById('body').style.backgroundColor = '#cff';
   } else {
-    document.getElementById('body').style.backgroundColor = '#ffc';
+    document.getElementById('body').style.backgroundColor = 'rgb(204, 255, 204)';
   }
 }
 
