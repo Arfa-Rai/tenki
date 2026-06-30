@@ -94,7 +94,7 @@ function switchLocation(index) {
   const url = 'https://api.open-meteo.com/v1/forecast'
     + '?latitude=' + loc.lat
     + '&longitude=' + loc.lng
-    + '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum'
+    + '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,precipitation_probability_max'
     + '&timezone=Asia%2FTokyo';
 
   fetch(url)
@@ -103,9 +103,9 @@ function switchLocation(index) {
 }
 
 function makePage(data) {
-  setData('day0', dateFormat(data.daily.time[0]));
-  setData('day1', dateFormat(data.daily.time[1]));
-  setData('day2', dateFormat(data.daily.time[2]));
+  setData('day0', getDateHeader(data.daily.time[0], 0));
+  setData('day1', getDateHeader(data.daily.time[1], 1));
+  setData('day2', getDateHeader(data.daily.time[2], 2));
   setData('weathercode0', getWMO(data.daily.weathercode[0]));
   setData('weathercode1', getWMO(data.daily.weathercode[1]));
   setData('weathercode2', getWMO(data.daily.weathercode[2]));
@@ -118,6 +118,12 @@ function makePage(data) {
   setData('precipitation_sum0', data.daily.precipitation_sum[0] + 'mm');
   setData('precipitation_sum1', data.daily.precipitation_sum[1] + 'mm');
   setData('precipitation_sum2', data.daily.precipitation_sum[2] + 'mm');
+  setData('windspeed_10m_max0', data.daily.windspeed_10m_max[0] + 'm/s');
+  setData('windspeed_10m_max1', data.daily.windspeed_10m_max[1] + 'm/s');
+  setData('windspeed_10m_max2', data.daily.windspeed_10m_max[2] + 'm/s');
+  setData('precipitation_probability_max0', data.daily.precipitation_probability_max[0] + '%');
+  setData('precipitation_probability_max1', data.daily.precipitation_probability_max[1] + '%');
+  setData('precipitation_probability_max2', data.daily.precipitation_probability_max[2] + '%');
 
   const rainy = data.daily.precipitation_sum[0] > 0;
   document.getElementById('body').style.backgroundColor = rainy ? '#cff' : '#ffc';
@@ -139,6 +145,15 @@ function dateFormat(date, mode) {
 
   if (mode === 1) return year + '年' + month + '月' + day + '日 ' + hour + ':' + minute + ':' + second;
   return month + '月' + day + '日';
+}
+
+function getDateHeader(date, index) {
+  const names = ['今日', '明日', '明後日'];
+  const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+  const d = new Date(date);
+  const dayName = weekdays[d.getDay()];
+  const label = names[index] || '';
+  return label + '（' + dayName + '）';
 }
 
 function addZero(n) {
