@@ -41,37 +41,6 @@ function handleAdd() {
   renderLocationList();
 }
 
-function handleCurrentLocation() {
-  if (!navigator.geolocation) {
-    alert('Geolocation APIが利用できません。');
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    function (position) {
-      const lat = position.coords.latitude;
-      const lng = position.coords.longitude;
-      fetchWeatherByCoords(lat, lng, '現在地');
-    },
-    function () {
-      alert('現在地を取得できませんでした。位置情報の使用を許可してください。');
-    }
-  );
-}
-
-function fetchWeatherByCoords(lat, lng, name) {
-  document.getElementById('city-name').textContent = name + 'の天気';
-  const url = 'https://api.open-meteo.com/v1/forecast'
-    + '?latitude=' + lat
-    + '&longitude=' + lng
-    + '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max,precipitation_probability_max'
-    + '&timezone=Asia%2FTokyo';
-
-  fetch(url)
-    .then(function (response) { return response.json(); })
-    .then(function (data) { makePage(data); });
-}
-
 function removeLocation(index) {
   const locations = loadLocations();
   if (locations.length <= 1) {
